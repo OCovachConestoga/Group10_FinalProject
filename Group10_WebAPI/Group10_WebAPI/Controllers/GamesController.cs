@@ -12,9 +12,9 @@ namespace Group10_WebAPI.Controllers
         private readonly AppDbContext _context;
         public GameController(AppDbContext context) { _context = context; }
 
-        [HttpPost("addGame")]
+        [HttpPost("newPost")]
         [Authorize]
-        public async Task<IActionResult> AddGame(Game game)
+        public async Task<IActionResult> NewPost(Game game)
         {
             _context.SpikeballGames.Add(game);
             await _context.SaveChangesAsync();
@@ -35,7 +35,7 @@ namespace Group10_WebAPI.Controllers
             return game;
         }
 
-        [HttpPost("{id}/join")]
+        [HttpPost("{id}/joinRequest")]
         [Authorize]
         public async Task<IActionResult> JoinGame(int id, int userId)
         {
@@ -47,7 +47,7 @@ namespace Group10_WebAPI.Controllers
             return Ok("Joined game");
         }
 
-        [HttpPost("{id}/leave")]
+        [HttpPost("{id}/leaveRequest")]
         [Authorize]
         public async Task<IActionResult> LeaveGame(int id, int userId)
         {
