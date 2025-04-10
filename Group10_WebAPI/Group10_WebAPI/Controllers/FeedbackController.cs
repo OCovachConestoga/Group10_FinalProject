@@ -13,7 +13,6 @@ namespace Group10_WebAPI.Controllers
         public FeedbackController(AppDbContext context) { _context = context; }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> SubmitFeedback(Feedback feedback)
         {
             _context.Feedbacks.Add(feedback);
@@ -22,7 +21,6 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedback()
         {
             return await _context.Feedbacks.ToListAsync();

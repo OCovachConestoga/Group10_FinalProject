@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "All Games";
+}
+
+<h2>All Available Games</h2>
+
+<!-- Create the table structure -->
+<table id="gamesTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Max Players</th>
+            <th>Organizer</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="gamesList">
+        <!-- Dynamically filled by JS -->
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/api/games')
+            .then(res => {
+                // Check if the response is OK (status code 200-299)
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json(); // Continue with JSON parsing
+            })
+            .then(data => {
+                // Check if data is an array and not empty
+                if (data && Array.isArray(data) && data.length > 0) {
+                    const list = document.getElementById('gamesList');
+                    // Clear existing table rows if any
+                    list.innerHTML = '';
+                    data.forEach(game => {
+                        // Create a table row for each game
+                        const row = document.createElement('tr');
+
+                        // Location column
+                        const locationCell = document.createElement('td');
+                        locationCell.textContent = game.location;
+                        row.appendChild(locationCell);
+
+                        // Date column
+                        const dateCell = document.createElement('td');
+                        dateCell.textContent = new Date(game.date).toLocaleString();
+                        row.appendChild(dateCell);
+
+                        // Max Players column
+                        const maxPlayersCell = document.createElement('td');
+                        maxPlayersCell.textContent = game.maxPlayers;
+                        row.appendChild(maxPlayersCell);
+
+                        // Organizer column
+                        const organizerCell = document.createElement('td');
+                        organizerCell.textContent = game.organizer;
+                        row.appendChild(organizerCell);
+
+                        // Actions column with Details and Delete links
+                        const actionsCell = document.createElement('td');
+                        const detailsLink = document.createElement('a');
+                        detailsLink.href = `/GamesView/Details/${game.gameId}`;
+                        detailsLink.textContent = 'Details';
+                        detailsLink.classList.add('btn', 'btn-info', 'btn-sm', 'me-2');
+                        actionsCell.appendChild(detailsLink);
+
+                        const deleteLink = document.createElement('a');
+                        deleteLink.href = `/GamesView/Delete?id=${game.gameId}`;
+                        deleteLink.textContent = 'Delete';
+                        deleteLink.classList.add('btn', 'btn-danger', 'btn-sm');
+                        actionsCell.appendChild(deleteLink);
+
+                        row.appendChild(actionsCell);
+
+                        // Append the row to the table body
+                        list.appendChild(row);
+                    });
+                } else {
+                    console.log('No games found or data is not in expected format');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching the games data:', error);
+            });
+    });
+</script>

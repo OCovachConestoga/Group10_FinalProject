@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Edit Game";
+    var gameId = ViewData["GameId"];
+}
+
+<h2>Edit Game</h2>
+
+<form id="editGameForm" class="mt-4 w-25" style="text-align: left; width: 100%;">
+    <input type="hidden" name="GameId" value="@gameId" />
+
+    <div class="mb-3">
+        <label for="Location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="Location" name="Location" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <input type="datetime-local" class="form-control" id="Date" name="Date" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="MaxPlayers" class="form-label">Max Players</label>
+        <input type="number" class="form-control" id="MaxPlayers" max="4" min="0" name="MaxPlayers" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Organizer" class="form-label">Organizer</label>
+        <input type="text" class="form-control" id="Organizer" name="Organizer" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="IsFull" class="form-label">Is Full</label>
+        <input type="checkbox" id="IsFull" name="IsFull" />
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+
+
+
+
+<script>
+    const gameId = @gameId; // This will properly embed the gameId in JavaScript
+
+    // Fetch the game details and pre-fill the form
+    fetch(`/api/games/${gameId}`)
+        .then(res => res.json())
+        .then(game => {
+            document.querySelector('[name="Location"]').value = game.location;
+            document.querySelector('[name="Date"]').value = new Date(game.date).toISOString().slice(0, 16);
+            document.querySelector('[name="MaxPlayers"]').value = game.maxPlayers;
+            document.querySelector('[name="Organizer"]').value = game.organizer;
+            document.querySelector('[name="IsFull"]').checked = game.isFull; // Set the checkbox based on the `isFull` value
+        });
+
+    // Modify the form submit function
+        document.getElementById('editGameForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const updatedGame = {
+            gameId: parseInt(gameId), // Ensure gameId is an integer
+            location: document.getElementsByName('Location')[0].value,
+            date: document.getElementsByName('Date')[0].value,
+            maxPlayers: parseInt(document.getElementsByName('MaxPlayers')[0].value), // Ensure maxPlayers is an integer
+            organizer: document.getElementsByName('Organizer')[0].value,
+            isFull: document.getElementsByName('IsFull')[0].checked // Checkbox is either true or false
+        };
+
+        // Perform the PUT request
+        fetch(`/api/games/${updatedGame.gameId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // Include token if needed
+            },
+            body: JSON.stringify(updatedGame)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Game updated successfully.");
+                window.location.href = '/GamesView/Details?id=' + updatedGame.gameId; // Redirect to the Game details page
+            } else {
+                alert("Failed to update game.");
+            }
+        })
+        .catch(error => {
+            console.error("Error updating game:", error);
+            alert("An error occurred while updating the game.");
+        });
+    });
+
+</script>

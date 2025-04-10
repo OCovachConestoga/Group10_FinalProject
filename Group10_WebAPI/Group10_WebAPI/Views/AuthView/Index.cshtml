@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>All Users</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="userList">
+        <!-- This is where the user list will be displayed -->
+    </tbody>
+</table>
+
+<script>
+    // Fetch users from the API
+    fetch('/api/auth/users/all', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}` // Use the token if needed
+        }
+    })
+    .then(response => response.json())
+    .then(users => {
+        const userList = document.getElementById('userList');
+        userList.innerHTML = ''; // Clear existing content
+
+        if (users && users.length > 0) {
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.email}</td>
+                    <td>${user.password}</td>
+                    <td>
+                        <a href="/AuthView/Edit?id=${user.userId}">Edit</a> |
+                        <a href="/AuthView/Delete?id=${user.userId}">Delete</a>
+                    </td>
+                `;
+                userList.appendChild(row);
+            });
+        } else {
+            userList.innerHTML = '<tr><td colspan="3">No users found.</td></tr>';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching users:', error);
+    });
+</script>

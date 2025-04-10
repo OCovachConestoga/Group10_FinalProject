@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form id="registerForm" class="w-25">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Register</button>
+</form>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const userData = {
+            email: email,
+            password: password
+        };
+
+        fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "User registered successfully") {
+                alert("Registration successful!");
+                window.location.href = "/AuthView/Login"; // Redirect to login page after successful registration
+            } else {
+                alert("Registration failed. Please try again.");
+            }
+        })
+        .catch(error => {
+            console.error('Error during registration:', error);
+            alert("An error occurred. Please try again.");
+        });
+    });
+</script>

@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Delete Game";
+    var gameId = ViewData["GameId"];
+}
+
+<h2>Are you sure you want to delete this game?</h2>
+
+<div>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Date:</strong> @Model.Date.ToString("f")</p>
+    <p><strong>Max Players:</strong> @Model.MaxPlayers</p>
+    <p><strong>Organizer:</strong> @Model.Organizer</p>
+</div>
+
+<form id="deleteGameForm" method="post" style="display: none;">
+    <button type="submit" class="btn btn-danger">Yes, delete it</button>
+</form>
+
+<button id="deleteButton" class="btn btn-danger">Yes, delete it</button>
+<a href="@Url.Action("Index", "GamesView")" class="btn btn-secondary">No, go back</a>
+
+<script>
+    document.getElementById('deleteButton').addEventListener('click', async function () {
+        try {
+            const gameId = @Model.GameId; // Getting the GameId from the Model
+            const response = await fetch(`/api/games/deleteGame/${gameId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                alert("Game deleted successfully!");
+                window.location.href = '@Url.Action("Index", "GamesView")';
+            } else {
+                alert('Failed to delete game');
+            }
+        } catch (error) {
+            console.error('Error deleting game:', error);
+            alert('Error deleting game');
+        }
+    });
+</script>

@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Game Details";
+    var gameId = ViewData["GameId"];
+}
+
+<h2>Game Details</h2>
+
+<!-- Game Details Table -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody id="gameDetails">
+        <!-- The game details will be dynamically injected here -->
+    </tbody>
+</table>
+
+<!-- Edit Button -->
+<div>
+    <a href="/GamesView/Edit?id=@gameId" class="btn btn-info">Edit Game</a>
+</div>
+
+<script>
+    // Fetch the game details
+    fetch(`/api/games/${@gameId}`)
+        .then(res => res.json())
+        .then(game => {
+            // Populate the table with game details
+            document.getElementById('gameDetails').innerHTML = `
+                <tr>
+                    <td><strong>Location:</strong></td>
+                    <td>${game.location}</td>
+                </tr>
+                <tr>
+                    <td><strong>Date:</strong></td>
+                    <td>${new Date(game.date).toLocaleString()}</td>
+                </tr>
+                <tr>
+                    <td><strong>Max Players:</strong></td>
+                    <td>${game.maxPlayers}</td>
+                </tr>
+                <tr>
+                    <td><strong>Organizer:</strong></td>
+                    <td>${game.organizer}</td>
+                </tr>
+                <tr>
+                    <td><strong>Is Full:</strong></td>
+                    <td>${game.isFull ? 'Yes' : 'No'}</td>
+                </tr>
+            `;
+        });
+</script>

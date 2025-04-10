@@ -1,8 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<h1>Welcome to the Spikeball Pickup Admin App!</h1>
+<p>Manage local Spikeball pickup games with ease.</p>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<nav>
+    <a asp-controller="GamesView" asp-action="Index" class="btn btn-primary d-block mb-2 w-25">View Pickup Games</a>
+    <a asp-controller="GamesView" asp-action="Create" class="btn btn-secondary d-block mb-2 w-25">Post a Game</a>
+    <a asp-controller="FeedbackView" asp-action="Index" class="btn btn-info d-block mb-2 w-25">View Feedback</a>
+    <a asp-controller="AuthView" asp-action="Index" class="btn btn-warning d-block mb-2 w-25">View All Users</a>
+</nav>

@@ -23,11 +23,21 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
                 </div>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <!-- Display logout link if user is authenticated -->
+                    <p><a id="logoutBtn" href="#" class="logout-btn">Logout</a></p>
+                }
+                else
+                {
+                    <!-- Display login and register links if user is not authenticated -->
+                    <div class="login-register">
+                        <p><a asp-controller="AuthView" asp-action="Login">Login</a> or <a asp-controller="AuthView" asp-action="Register">Register</a></p>
+                    </div>
+                }
             </div>
         </nav>
     </header>
@@ -36,15 +46,48 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Group10_WebAPI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+<script>
+    // Attach a click event listener to the logout button
+    document.getElementById('logoutBtn')?.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default action of the link
+
+        // Make a POST request to the logout API
+        fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}` // If you're using JWT authentication, include the token
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Successfully logged out
+                alert("You have been logged out successfully.");
+
+                // Remove the token from localStorage
+                localStorage.removeItem('token');
+
+                // Update the UI: Hide logout link and show login/register links
+                document.querySelectorAll('.logout-btn').forEach(element => element.style.display = 'none');
+                document.querySelectorAll('.login-register').forEach(element => element.style.display = 'block');
+
+                // Optionally, redirect to home or login page
+                window.location.href = '/Home/Index'; // Redirect to Home page or any other page
+            } else {
+                alert("Error during logout.");
+            }
+        })
+        .catch(error => {
+            console.error("Error during logout:", error);
+            alert("An error occurred during logout.");
+        });
+    });
+</script>
+
 </html>

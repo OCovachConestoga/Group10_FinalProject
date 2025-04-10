@@ -15,7 +15,7 @@ namespace Group10_WebAPI.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Game>().ToTable("SpikeballGames");
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<User>().ToTable("Users").Property(u => u.UserId).ValueGeneratedOnAdd(); // Ensures auto-increment;
             modelBuilder.Entity<GameResponse>().ToTable("GameResponses");
             modelBuilder.Entity<Feedback>().ToTable("Feedbacks");
         }
@@ -28,25 +28,32 @@ namespace Group10_WebAPI.Models
                 .GetRequiredService<RoleManager<IdentityRole>>();
 
             string username = "admin";
-            string password = "admin123";
+            string password = "Admin123!";
             string roleName = "Admin";
 
-            // if role doesn't exist, create it
+            // If the role doesn't exist, create it
             if (await roleManager.FindByNameAsync(roleName) == null)
             {
                 await roleManager.CreateAsync(new IdentityRole(roleName));
             }
-            // if username doesn't exist, create it and add it to role
+
+            // If the user doesn't exist, create it
             if (await userManager.FindByNameAsync(username) == null)
             {
-                User user = new User { UserName = username };
+                User user = new User { UserName = username, Email = "admin@example.com" }; // Don't set UserId here
+
+                // Create the user without manually setting the UserId
                 var result = await userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
+                    // No need to manually set the UserId or change it here
                     await userManager.AddToRoleAsync(user, roleName);
                 }
             }
         }
+
+
+
     }
 
 }

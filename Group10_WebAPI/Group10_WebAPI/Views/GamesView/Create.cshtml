@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Create a Post";
+}
+
+<h2>Create a Post</h2>
+
+<form id="createGameForm" class="mt-4 w-25" style="text-align: left; width: 100%;">
+    <div class="mb-3">
+        <label for="Location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="Location" name="Location" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Date" class="form-label">Date</label>
+        <input type="datetime-local" class="form-control" id="Date" name="Date" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="MaxPlayers" class="form-label">Max Players</label>
+        <input type="number" class="form-control" id="MaxPlayers" max="4" min="0" name="MaxPlayers" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="Organizer" class="form-label">Organizer</label>
+        <input type="text" class="form-control" id="Organizer" name="Organizer" required />
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form>
+
+
+<script>
+    document.getElementById('createGameForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const body = Object.fromEntries(formData.entries());
+        const response = await fetch('/api/games/newPost', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        if (response.ok) {
+            alert("Game created!");
+            window.location.href = '/GamesView/Index';
+        } else {
+            alert("Failed to create game");
+        }
+    });
+</script>
