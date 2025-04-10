@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Group10_WebAPI.Controllers
 {
+    // API routes for feedback related features
     [Route("api/feedback")]
     [ApiController]
     public class FeedbackController : ControllerBase
@@ -20,7 +21,9 @@ namespace Group10_WebAPI.Controllers
             return Ok("Feedback submitted successfully");
         }
 
+        // Action to get all submitted feedback (ADMIN ONLY FEATURE)
         [HttpGet("all")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedback()
         {
             return await _context.Feedbacks.ToListAsync();

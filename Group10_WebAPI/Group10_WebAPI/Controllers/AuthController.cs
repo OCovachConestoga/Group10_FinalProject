@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Group10_WebAPI.Controllers
 {
+    // Controller responsible to handle the authentication actions and anything related
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -70,9 +71,9 @@ namespace Group10_WebAPI.Controllers
             return RedirectToAction("Index", "Home");  // Redirect to Home page, or wherever you'd like
         }
 
-
+        // Action to get all users (ADMIN ONLY FEATURE)
         [HttpGet("users/all")]
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _context.Users.ToListAsync();
@@ -80,6 +81,7 @@ namespace Group10_WebAPI.Controllers
             return users;
         }
 
+        // Action to get specific user (AKA user information page)
         [HttpGet("users/{id}")]
         [Authorize]
         public async Task<ActionResult<User>> GetUser(int id)
@@ -89,6 +91,7 @@ namespace Group10_WebAPI.Controllers
             return user;
         }
 
+        // Action to edit user info
         [HttpPost("editUser/{id}")]
         [Authorize]
         public async Task<IActionResult> EditUser(int id, [FromBody] User user)
@@ -111,7 +114,7 @@ namespace Group10_WebAPI.Controllers
             return NoContent();  // Successfully updated
         }
 
-
+        // action to delete users (ADMIN ONLY FEATURE)
         [HttpPost("deleteUser/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)

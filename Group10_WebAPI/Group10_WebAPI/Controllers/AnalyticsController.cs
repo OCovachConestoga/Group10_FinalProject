@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Group10_WebAPI.Controllers
 {
+    // Api Routes for the analytics functionalities
+    // No Admin Views are included for this as this is mostly just a stats thing
+    // THERE IS LOTS OF ROOM FOR SCALING AS THIS IS VERY BASIC STATS!!!
     [Route("api/analytics")]
     [ApiController]
     public class AnalyticsController : ControllerBase
@@ -11,6 +14,7 @@ namespace Group10_WebAPI.Controllers
         private readonly AppDbContext _context;
         public AnalyticsController(AppDbContext context) { _context = context; }
 
+        // Counts total games played to get statistics of activity
         [Authorize]
         [HttpGet("games")]
         public IActionResult GetGameStats()
@@ -19,6 +23,7 @@ namespace Group10_WebAPI.Controllers
             return Ok(stats);
         }
 
+        // Counts total users that have registered, to get stats of recognition of app
         [Authorize]
         [HttpGet("users")]
         public IActionResult GetUserStats()
@@ -27,6 +32,7 @@ namespace Group10_WebAPI.Controllers
             return Ok(stats);
         }
 
+        // Counts common locations from multiple spikeball games
         [Authorize]
         [HttpGet("locations")]
         public IActionResult GetLocationTrends()

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class GamesViewController : Controller
 {
+    // Simple Controller for Admin Views
     private readonly AppDbContext _context;
     public GamesViewController(AppDbContext context) { _context = context; }
     public IActionResult Index() => View("Index");

@@ -6,6 +6,7 @@ namespace Group10_WebAPI.Controllers;
 
 public class HomeController : Controller
 {
+    // Home controller for Admin Views
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)

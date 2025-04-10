@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Group10_WebAPI.Controllers
 {
+    // API routes for games
     [Route("api/games")]
     [ApiController]
     public class GameController : ControllerBase

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Group10_WebAPI.Controllers
 {
+    // Controller responsible for the Admin Views
     public class AuthViewController : Controller
     {
         private readonly AppDbContext _context;

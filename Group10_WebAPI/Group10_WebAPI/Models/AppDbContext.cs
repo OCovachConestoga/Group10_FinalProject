@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Group10_WebAPI.Models
 {
+    // DB Context for the entire app
     public class AppDbContext : IdentityDbContext<User>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -40,7 +41,7 @@ namespace Group10_WebAPI.Models
             // If the user doesn't exist, create it
             if (await userManager.FindByNameAsync(username) == null)
             {
-                User user = new User { UserName = username, Email = "admin@example.com" }; // Don't set UserId here
+                User user = new User { UserName = username, Email = "admin@example.com", Password = password }; // Don't set UserId here
 
                 // Create the user without manually setting the UserId
                 var result = await userManager.CreateAsync(user, password);
@@ -51,9 +52,6 @@ namespace Group10_WebAPI.Models
                 }
             }
         }
-
-
-
     }
 
 }
