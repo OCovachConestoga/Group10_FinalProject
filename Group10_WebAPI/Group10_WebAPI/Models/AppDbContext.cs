@@ -16,7 +16,7 @@ namespace Group10_WebAPI.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Game>().ToTable("SpikeballGames");
-            modelBuilder.Entity<User>().ToTable("Users").Property(u => u.UserId).ValueGeneratedOnAdd(); // Ensures auto-increment;
+            modelBuilder.Entity<User>().ToTable("Users").Property(u => u.Id).ValueGeneratedOnAdd(); // Ensures auto-increment;
             modelBuilder.Entity<GameResponse>().ToTable("GameResponses");
             modelBuilder.Entity<Feedback>().ToTable("Feedbacks");
         }

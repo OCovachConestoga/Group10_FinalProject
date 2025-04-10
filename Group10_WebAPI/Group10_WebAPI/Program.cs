@@ -7,11 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddDbContext<AppDbContext>(options =>
-    //options.UseMySQL(builder.Configuration.GetConnectionString("DefaultMySQLConnection")));
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlServerConnection")));
+    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultMySQLConnection")));
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSqlServerConnection")));
 
 builder.Services.AddCors(options =>
 {

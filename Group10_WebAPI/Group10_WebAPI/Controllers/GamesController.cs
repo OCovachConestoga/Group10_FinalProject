@@ -28,7 +28,7 @@ namespace Group10_WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
-            var games = await _context.SpikeballGames.Where(g => !g.IsFull).ToListAsync();
+            var games = await _context.SpikeballGames.ToListAsync();
             Console.WriteLine($"Returning {games.Count} games");  // Log the number of games
             return games;
         }

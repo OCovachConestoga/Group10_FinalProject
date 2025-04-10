@@ -25,7 +25,7 @@
     document.getElementById('deleteUserForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        fetch('/api/auth/deleteUser/@Model.UserId', {
+        fetch('/api/auth/deleteUser/@Model.Id', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}` // Include token if using JWT

@@ -94,10 +94,10 @@ namespace Group10_WebAPI.Controllers
         // Action to edit user info
         [HttpPost("editUser/{id}")]
         [Authorize]
-        public async Task<IActionResult> EditUser(int id, [FromBody] User user)
+        public async Task<IActionResult> EditUser(string id, [FromBody] User user)
         {
 
-            var existingUser = _context.Users.FirstOrDefault(u => u.UserId == id);
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == id);
             if (existingUser == null)
             {
                 return NotFound();  // Return NotFound if user doesn't exist
@@ -108,8 +108,6 @@ namespace Group10_WebAPI.Controllers
             existingUser.Password = user.Password;  // Update fields accordingly
             
             _context.Entry(existingUser).State = EntityState.Modified;
-            // EF might try to track all fields, make sure we don't mark UserId for update
-            _context.Entry(existingUser).Property(u => u.UserId).IsModified = false;
             await _context.SaveChangesAsync();
             return NoContent();  // Successfully updated
         }

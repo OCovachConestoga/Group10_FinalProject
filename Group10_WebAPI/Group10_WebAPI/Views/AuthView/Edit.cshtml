@@ -33,7 +33,7 @@
             password: document.getElementById('password').value
         };
 
-        fetch(`/api/auth/editUser/@Model.UserId`, {
+        fetch(`/api/auth/editUser/@Model.Id`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

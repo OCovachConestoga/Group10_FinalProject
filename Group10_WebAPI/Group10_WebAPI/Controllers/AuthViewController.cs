@@ -21,9 +21,9 @@ namespace Group10_WebAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == id); // Find user
+            var user = _context.Users.FirstOrDefault(u => u.Id == id); // Find user
             if (user == null)
             {
                 return NotFound(); // Return 404 if the user isn't found
@@ -32,9 +32,9 @@ namespace Group10_WebAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == id); // Find user
+            var user = _context.Users.FirstOrDefault(u => u.Id == id); // Find user
             if (user == null)
             {
                 return NotFound(); // Return 404 if the user isn't found

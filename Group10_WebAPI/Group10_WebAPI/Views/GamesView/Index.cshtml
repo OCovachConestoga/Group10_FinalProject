@@ -12,6 +12,7 @@
             <th>Date</th>
             <th>Max Players</th>
             <th>Organizer</th>
+            <th>Full?</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -59,6 +60,11 @@
                         const organizerCell = document.createElement('td');
                         organizerCell.textContent = game.organizer;
                         row.appendChild(organizerCell);
+
+                        // Full? column
+                        const isFullCell = document.createElement('td');
+                        isFullCell.textContent = game.isFull ? "Yes" : "No";
+                        row.appendChild(isFullCell);
 
                         // Actions column with Details and Delete links
                         const actionsCell = document.createElement('td');
