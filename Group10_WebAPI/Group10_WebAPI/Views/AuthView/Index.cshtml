@@ -32,15 +32,16 @@
 
         if (users && users.length > 0) {
             users.forEach(user => {
+                console.log(user);
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.email}</td>
-                    <td>${user.password}</td>
-                    <td>
-                        <a href="/AuthView/Edit?id=${user.userId}">Edit</a> |
-                        <a href="/AuthView/Delete?id=${user.userId}">Delete</a>
-                    </td>
-                `;
+                    row.innerHTML = `
+                        <td>${user.email}</td>
+                        <td>${user.password}</td>
+                        <td>
+                            <a href="/AuthView/Edit?id=${user.id}">Edit</a> |
+                            <a href="/AuthView/Delete?id=${user.id}">Delete</a>
+                        </td>
+                    `;
                 userList.appendChild(row);
             });
         } else {
