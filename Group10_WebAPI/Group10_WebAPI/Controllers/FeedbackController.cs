@@ -13,8 +13,8 @@ namespace Group10_WebAPI.Controllers
         private readonly AppDbContext _context;
         public FeedbackController(AppDbContext context) { _context = context; }
 
-        [HttpPost]
-        public async Task<IActionResult> SubmitFeedback(Feedback feedback)
+        [HttpPost("submit")]
+        public async Task<IActionResult> SubmitFeedback([FromBody] Feedback feedback)
         {
             _context.Feedbacks.Add(feedback);
             await _context.SaveChangesAsync();

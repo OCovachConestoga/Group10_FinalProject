@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback & Analytics SPA</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback & Analytics</h1>
+
+        <button id="toggleFeedbackBtn">Give Feedback</button>
+
+        <form id="feedbackForm" class="hidden">
+            <h2>Submit Feedback</h2>
+            <label for="name">Email:</label>
+            <input type="text" id="email" name="Email" style="width: 40%;" required>
+
+            <label for="message" style="display: block; margin-bottom: 5px;">Message:</label>
+            <textarea id="message" name="Message" required></textarea>
+
+            <button type="submit">Submit Feedback</button>
+            <button id="cancelbtn" class="cancelbtn" onclick="cancelForm()">Cancel</button>
+        </form>
+
+        <h2>Analytics Summary</h2>
+        <button id="loadAnalytics">Refresh Analytics</button>
+
+        <!-- For the user statistics -->
+        <div id="userStatsOutput"></div>
+
+        <!-- For the game statistics -->
+        <div id="analyticsOutput"></div>
+
+        <!-- For the location statistics -->
+        <div id="locationStatsOutput"></div>
+    </div>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
