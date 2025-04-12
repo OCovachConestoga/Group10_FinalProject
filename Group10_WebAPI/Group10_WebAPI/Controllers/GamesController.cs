@@ -103,7 +103,7 @@ namespace Group10_WebAPI.Controllers
             if (!games.Any()) return NotFound("No games found");
             return games;
         }
-        [Authorize (Roles = "Admin")]
+        [Authorize]
         [HttpPost("deleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
