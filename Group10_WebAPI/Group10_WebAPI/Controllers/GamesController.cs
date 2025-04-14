@@ -14,7 +14,8 @@ namespace Group10_WebAPI.Controllers
         public GameController(AppDbContext context) { _context = context; }
 
         [HttpPost("newPost")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> NewPost(Game game)
         {
             // Add the new game
@@ -34,7 +35,8 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
             var game = await _context.SpikeballGames.FindAsync(id);
@@ -43,7 +45,8 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> EditGame(int id, Game updatedGame)
         {
             if (id != updatedGame.GameId)
@@ -66,7 +69,9 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPost("{id}/joinRequest")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
+
         public async Task<IActionResult> JoinGame(int id, string userId)
         {
             var game = await _context.SpikeballGames.FindAsync(id);
@@ -78,7 +83,8 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPost("{id}/leaveRequest")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> LeaveGame(int id, string userId)
         {
             var response = await _context.GameResponses.FirstOrDefaultAsync(gr => gr.GameId == id && gr.UserId == userId);
@@ -88,7 +94,8 @@ namespace Group10_WebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         [HttpGet("myGames")]
         public async Task<ActionResult<IEnumerable<Game>>> GetMyGames(string userId)
         {
@@ -103,7 +110,8 @@ namespace Group10_WebAPI.Controllers
             if (!games.Any()) return NotFound("No games found");
             return games;
         }
-        [Authorize (Roles = "Admin")]
+        //[Authorize]
+        [AllowAnonymous]
         [HttpPost("deleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {

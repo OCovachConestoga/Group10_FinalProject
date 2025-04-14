@@ -23,7 +23,7 @@ public class GamesViewController : Controller
         return View("Edit");
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public IActionResult Delete(int id)
     {
         var game = _context.SpikeballGames.FirstOrDefault(g => g.GameId == id);
