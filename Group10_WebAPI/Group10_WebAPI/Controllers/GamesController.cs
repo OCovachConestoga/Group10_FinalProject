@@ -67,7 +67,7 @@ namespace Group10_WebAPI.Controllers
 
         [HttpPost("{id}/joinRequest")]
         [Authorize]
-        public async Task<IActionResult> JoinGame(int id, int userId)
+        public async Task<IActionResult> JoinGame(int id, string userId)
         {
             var game = await _context.SpikeballGames.FindAsync(id);
             if (game == null || game.IsFull) return BadRequest("Game is full or not found");
@@ -79,7 +79,7 @@ namespace Group10_WebAPI.Controllers
 
         [HttpPost("{id}/leaveRequest")]
         [Authorize]
-        public async Task<IActionResult> LeaveGame(int id, int userId)
+        public async Task<IActionResult> LeaveGame(int id, string userId)
         {
             var response = await _context.GameResponses.FirstOrDefaultAsync(gr => gr.GameId == id && gr.UserId == userId);
             if (response == null) return NotFound("Not in game");
@@ -90,7 +90,7 @@ namespace Group10_WebAPI.Controllers
 
         [Authorize]
         [HttpGet("myGames")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetMyGames(int userId)
+        public async Task<ActionResult<IEnumerable<Game>>> GetMyGames(string userId)
         {
             var games = await _context.GameResponses
                 .Where(gr => gr.UserId == userId)
