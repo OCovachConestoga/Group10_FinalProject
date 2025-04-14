@@ -1,0 +1,45 @@
+<!-- FILE: register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo-title">
+      <span class="yellow-ball">🟡</span>
+      <h1>Spikeball Pickupp</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <a href="login.html">Already have an account? Login</a>
+  </div>
+
+  <script src="scripts/script.js"></script>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const user = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+      const res = await fetch(`${apiBase}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+      alert(res.ok ? "Registered!" : "Failed to register");
+      if (res.ok) window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
