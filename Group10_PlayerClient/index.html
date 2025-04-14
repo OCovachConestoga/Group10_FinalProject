@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles/styles.css" />
 </head>
 <body>
-  <body>
   <header class="app-header">
     <div class="logo-title">
       <span class="yellow-ball">🟡</span>
@@ -52,13 +51,14 @@
         return;
       }
 
-      let html = "<table><tr><th>Location</th><th>Date</th><th>Action</th></tr>";
+      let html = "<table><tr><th>Location</th><th>Date</th><th>Details</th><th>Action</th></tr>";
       allGames.forEach(g => {
         const isJoined = joinedIds.has(g.gameId);
         html += `
           <tr>
             <td>${g.location}</td>
             <td>${new Date(g.date).toLocaleString()}</td>
+            <td><a href="details.html?id=${g.gameId}" class="details-link">Details</a></td>
             <td>
               ${
                 isJoined
