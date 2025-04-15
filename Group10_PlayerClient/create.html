@@ -1,0 +1,51 @@
+<!-- FILE: create.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Game</title>
+  <link rel="stylesheet" href="styles/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo-title">
+      <span class="yellow-ball">🟡</span>
+      <h1>Spikeball Pickupp</h1>
+    </div>
+    <button class="logout-button" onclick="logout()">Logout</button>
+  </header>
+
+  <div class="container">
+    <h2>Create New Game</h2>
+    <form id="gameForm">
+      <input id="location" placeholder="Location" required />
+      <input id="date" type="datetime-local" required />
+      <input id="maxPlayers" type="number" placeholder="Max Players (1-4)" min="1" max="4" required />
+      <input id="organizer" placeholder="Organizer" required />
+      <button type="submit">Submit</button>
+    </form>
+    <a href="index.html">Back to Games</a>
+  </div>
+
+  <script src="scripts/script.js"></script>
+  <script>
+    document.getElementById("gameForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const game = {
+        location: document.getElementById("location").value,
+        date: document.getElementById("date").value,
+        maxPlayers: parseInt(document.getElementById("maxPlayers").value),
+        organizer: document.getElementById("organizer").value,
+        isFull: false
+      };
+      const res = await fetch(`${apiBase}/games/newPost`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(game)
+      });
+      alert(res.ok ? "Game created!" : "Failed.");
+      if (res.ok) window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

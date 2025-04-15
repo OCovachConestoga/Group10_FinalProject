@@ -14,7 +14,8 @@ namespace Group10_WebAPI.Controllers
         public GameController(AppDbContext context) { _context = context; }
 
         [HttpPost("newPost")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> NewPost(Game game)
         {
             // Add the new game
@@ -34,7 +35,8 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
             var game = await _context.SpikeballGames.FindAsync(id);
@@ -43,7 +45,8 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> EditGame(int id, Game updatedGame)
         {
             if (id != updatedGame.GameId)
@@ -66,8 +69,10 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPost("{id}/joinRequest")]
-        [Authorize]
-        public async Task<IActionResult> JoinGame(int id, int userId)
+        //[Authorize]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> JoinGame(int id, string userId)
         {
             var game = await _context.SpikeballGames.FindAsync(id);
             if (game == null || game.IsFull) return BadRequest("Game is full or not found");
@@ -78,8 +83,9 @@ namespace Group10_WebAPI.Controllers
         }
 
         [HttpPost("{id}/leaveRequest")]
-        [Authorize]
-        public async Task<IActionResult> LeaveGame(int id, int userId)
+        //[Authorize]
+        [AllowAnonymous]
+        public async Task<IActionResult> LeaveGame(int id, string userId)
         {
             var response = await _context.GameResponses.FirstOrDefaultAsync(gr => gr.GameId == id && gr.UserId == userId);
             if (response == null) return NotFound("Not in game");
@@ -88,9 +94,10 @@ namespace Group10_WebAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         [HttpGet("myGames")]
-        public async Task<ActionResult<IEnumerable<Game>>> GetMyGames(int userId)
+        public async Task<ActionResult<IEnumerable<Game>>> GetMyGames(string userId)
         {
             var games = await _context.GameResponses
                 .Where(gr => gr.UserId == userId)
@@ -103,7 +110,8 @@ namespace Group10_WebAPI.Controllers
             if (!games.Any()) return NotFound("No games found");
             return games;
         }
-        [Authorize]
+        //[Authorize]
+        [AllowAnonymous]
         [HttpPost("deleteGame/{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
